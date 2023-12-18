@@ -1,5 +1,5 @@
 import random
-from Hangman.words import words
+from words import words
 import string
 
 def get_valid_word(words):
@@ -11,7 +11,7 @@ def get_valid_word(words):
 def hangman():
     word = get_valid_word(words)
     word_letters = set(word)
-    alphabet = set(string.ascii_uppercase)
+    alphabet = set(string.ascii_lowercase)
     used_letters = set()
     
     lives = 6
@@ -21,7 +21,7 @@ def hangman():
         
         word_list = [letter if letter in used_letters else '-' for letter in word]
         print('Current word: ', ' '.join(word_list))
-        user_letter = input('Guess a letter: ').upper()
+        user_letter = input('Guess a letter: ').lower()
         if user_letter in alphabet - used_letters:
             used_letters.add(user_letter)
             if user_letter in word_letters:
@@ -37,6 +37,6 @@ def hangman():
     if lives == 0:
         print('You died, sorry. The word was', word)
     else:
-        print('You guessed the word')
+        print('You guessed the word',word)
     
 hangman()
