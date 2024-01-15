@@ -119,6 +119,7 @@ def main():
 
         if hangman_status == 6:
             display_message("You LOST!")
+            display_message(f"Correct word is: {word}")
             break
     
 while True:
