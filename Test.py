@@ -1,10 +1,11 @@
 import pygame
 import math
 import random
+import sys
 
 # setup display
 pygame.init()
-WIDTH, HEIGHT = 800, 500
+WIDTH, HEIGHT = 1000, 800
 win = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Hangman Game!")
 
@@ -14,16 +15,16 @@ GAP = 15
 letters = []
 startx = round((WIDTH - (RADIUS * 2 + GAP) * 13) / 2)
 starty = 400
-A = 65
-for i in range(26):
+BANGLA_LETTERS = ["অ", "আ", "ই", "ঈ", "উ", "ঊ", "ঋ", "এ", "ঐ", "ও", "ঔ", "ক", "খ", "গ", "ঘ", "ঙ", "চ", "ছ", "জ", "ঝ", "ঞ", "ট", "ঠ", "ড", "ঢ", "ণ", "ত", "থ", "দ", "ধ", "ন", "প", "ফ", "ব", "ভ", "ম", "য", "র", "ল", "শ", "ষ", "স", "হ", "য়", ]
+for i in range(len(BANGLA_LETTERS)):
     x = startx + GAP * 2 + ((RADIUS * 2 + GAP) * (i % 13))
     y = starty + ((i // 13) * (GAP + RADIUS * 2))
-    letters.append([x, y, chr(A + i), True])
+    letters.append([x, y, BANGLA_LETTERS[i], True])
 
 # fonts
-LETTER_FONT = pygame.font.SysFont('comicsans', 40)
-WORD_FONT = pygame.font.SysFont('comicsans', 60)
-TITLE_FONT = pygame.font.SysFont('comicsans', 70)
+LETTER_FONT = pygame.font.SysFont("NotoSansBengali-VariableFont_wdth,wgth.ttf", 40)
+WORD_FONT = pygame.font.SysFont("NotoSansBengali-VariableFont_wdth,wgth.ttf", 60)
+TITLE_FONT = pygame.font.SysFont("NotoSansBengali-VariableFont_wdth,wgth.ttf", 70)
 
 # load images.
 images = []
@@ -33,20 +34,20 @@ for i in range(7):
 
 # game variables
 hangman_status = 0
-words = ["CAR", "LOVE", "PYTHON", "PYGAME"]
+words = ["কলম", "বল", "জল", "মন", "বন", "কল", "নল", "নরম", "গরম", "চরম", "গমন", "ধন", "চরণ", "পদ", "নদ", "তরল", "মলম", "আজ", "রণ", "আসল", "নকল", "চলন", "পরz"]
 word = random.choice(words)
 guessed = []
 
 # colors
-WHITE = (255,255,255)
-BLACK = (0,0,0)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
 
 
 def draw():
     win.fill(WHITE)
 
     # draw title
-    text = TITLE_FONT.render("DEVELOPER HANGMAN", 1, BLACK)
+    text = TITLE_FONT.render("ডেভেলপার হ্যাংম্যান", 1, BLACK)
     win.blit(text, (WIDTH/2 - text.get_width()/2, 20))
 
     # draw word
@@ -92,6 +93,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                run = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 m_x, m_y = pygame.mouse.get_pos()
                 for letter in letters:
@@ -113,16 +116,16 @@ def main():
                 break
         
         if won:
-            display_message("You WON!")
-            display_message(f"Your Score: {6-hangman_status}")
+            display_message("আপনি জিতলেন!")
             break
 
         if hangman_status == 6:
-            display_message("You LOST!")
+            display_message("আপনি হারিয়েছেন!")
             break
     
 while True:
-    
     main()
     
+    
     pygame.quit()
+    sys.exit()
